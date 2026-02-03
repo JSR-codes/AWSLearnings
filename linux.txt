@@ -1,0 +1,735 @@
+Linux Directory Structure : 
+
+/ (Root Directory) : Top level directory, Parent of all directories.. Similar to c:\ in windows..  
+
+/root : Root user's home directory : its home directory of root user (superuser).. Similar to c:\Users\Administrator
+
+/home : User's home directory : The home directory of regular users (non root).. every user gets a home directory.. 
+
+/bin (binary executables) : contains all binary files used by all users.. all commands backend logics stores here..
+
+/boot (boot loader files) : Contains linux kernel and boot configurations.. Contains Essential files for OS booting.. 
+
+/dev (Device files) : Contains files that represents hardware devices (Hard disks).. 
+
+/etc (Configuration files) : Stores system wide configurqtions.. (user pwd: /etc/passwd). System settings and service management related..
+
+/usr (user programs) : similar to "c:\program Files".. Contains installed programs and libraries..
+
+/sbin (system binaries) : system admin commands.. Only root user or super user can execute these comamnds..
+
+/var (Variable files) : Contains data that changes frequently.. (logs, messages)
+
+/mnt (mount points) ; Temp mount point for system
+/media (removable media) : usb, cd..
+/lib and /lib64 : Library files.. : similar to windows .dll files..
+/opt : optional or 3rd party software
+/tmp : temporary directory
+
+===
+
+whoami			--> Tell as what user you are working as
+hostname		--> Displays the instance/laptop/computer name
+uname			--> OS info
+cd				--> Change Directory
+pwd				--> Print working directory
+cd /			--> Change directory to linux root directory
+cd ..			--> Takes us to one directory back
+ls				--> List all the files and directories from current location
+ls -a			--> List hidden files/directories
+sudo su			--> Switch to root user
+sudo -i			--> Switch to root user
+clear			--. Clears the screen		(cls --> Similar to cls in windows cmd prompt)
+cat				--> Read info from a file
+
+uptime			--> Shows system uptime info
+uptime -p		--> 
+man <command>	--> Open manual page about the listed command
+
+mkdir			--> make directory (create a folder)
+
+
+root user will have full access / unrestricted access on this OS
+
+folder = directory
+
+----
+
+touch 			--> create a zero bytes/empty file
+
+touch song1.txt
+touch song2.txt
+touch song3.txt
+
+touch video{1..3}.txt	--> Creates 3 files with name video1 video2 and video3
+
+rm				--> Remove the individual files
+rmdir			--> Remove the empty directory
+rm -r <DIR>		--> Recursively delete the files and then folder
+rm -rf <Dir>	--> Recurseively and forcefully deletes the directory (use with caution)
+rm -rf *		--> Deletes all files and dir from current location
+
+cp <file> <target>						--> Copy a file to target directory
+cp <file1> <file2> <file3> <target> 	--> Copy multiple files to target directory
+cp -R <dir> <target/dir>				--> Copy a directory to target location
+
+mv <file> <target>						--> Moves the to target location
+mv <dir> <target>						--> Moves the directory to target location
+
+sudo dnf install tree -y				--> Installs tree package to view the file hierarchy
+
+"mv" also used to rename a file or directory..
+
+mv <wrong-name> <valid-name>			--> Rename a file
+mv <wrong-dir-name> <valid-dir-name>	--> Rename a directory
+
+---
+
+cat test.txt					--> Displays the entire content of the given file
+more test.txt					--> Displays the content page by page
+
+when using "more" command. Use "enter" to go to next line.. use "space" to scroll to next page
+
+cp /etc/passwd .				--> Copies the passwd file to current locaiton
+
+head passwd						--> Displas the top 10 lines of the doc
+tail passwd						--> Displas the bottom/last 10 lines of the doc
+
+head -n 2 passwd				--> Displas the top 2 lines of the doc
+tail -n 2 passwd				--> Displas the last/bottom 2 lines of the doc
+
+sort passwd						--> Displays the conent of a file in alphabetic order
+sort -r passwd					--> Displays the conent of a file in reverse alphabetic order
+
+pr passwd						--> Formats a file for printing
+
+---
+
+grep : Global regular expression print : Its a CLI tool to search text with in a file.
+
+grep <search-word> <file-name>
+grep "root" passwd				--> Search for "root" inside the "passwd" file
+
+grep -i "Root" passwd			--> Case Insensitive search		
+grep -i "root" passwd test.txt	--> Search for root word in multiple file
+
+grep -r "root" /home/ec2-user	--> Search for root word in a directory
+
+ps aux | grep sshd				--> Takes the output of "ps aux" command and grep search for "sshd" and displays the lines matching with sshd
+
+---
+
+VIM Editor:  (Vi IMproved) : Text editor in Linux OS.. 
+
+Any fine with vim opens in "command mode".. to enter the text we need to switch to "insert mode"..
+
+press "i" to go to insert mode
+press "esc" to come back to "command mode" to save the file / exit from editor..
+
+:wq			--> Write and Quit from editor
+:q!			--> Quit without saving changes and exit
+
+u			--> undo
+
+o 		--> Opens a new line below the current cursor location, works only in command mode
+k		--> Move cursor one line up
+j		--> move cursor one line down
+x		--> Delete the character/letter before the cursor
+
+delete:
+
+dd		--> Delete the entire line
+10dd	--> Delete the next 10 lines from cursor
+db		--> delete the word before the cursor
+dw		--> Delete the word after/from the cursor
+
+
+:set number		--> displays the line number
+:set nonumber	--> Remove the line number
+
+:<line-num>		--> takes our cursor to specific line number
+:15				--> jump cursor to line 15
+
+/<search-word>	
+
+====
+
+zip myfiles.zip file1.txt file2.txt			--> Zip individual/selected file
+zip allfiles.zip *							--> Zip everything from current location
+zip -r folder.zip folder-name				--> zip everything from the folder
+
+unzip myfiles.zip							--> unzip all the files
+unzip -l myfiles.zip						--> list the files from zipped file (wont extract)
+
+---
+
+.tar.gz
+
+zip files into tar format
+tar -czvf myfiles.tar.gz file1.txt file2.txt	
+
+unzip files from tar format
+tar -xzvf myfiles.tar.gz
+
+====
+
+echo "hello from Aviz"			--> THis command displays the output in terminal
+echo "hello" > output.txt		--> redirect the output to output.txt file
+ls > output.txt
+
+> 		--> Redirect the output to the given file, It will overwrite the existing information
+>> 		--> Appends the output to the given file, It will add new info to the existing information
+
+
+====
+
+rpm : Redhat Package manager  : Problem with Automatic Dependencies resolution and packages retrive
+
+rpm -ivh package.rpm
+rpm -Uvh package.rpm
+rpm -e package.rpm
+
+yum : Yellowdog updater modified : it can resolve dependencies automatically and retrives packages from repo (local/global repos).
+
+yum update
+yum install <package>
+yum search <package>
+yum remove <package>
+
+
+dnf : Dandified YUM : latest package manager, Replacing yum, Its deafult package manager for amazon linux 2023
+Faster dependencies resolution.. 
+
+dnf install <package-name>
+dnf remove <package>
+dnf search <package>
+dnf list installed
+
+Repo location : /etc/yum.repos.d/ (.repo format)
+
+
+dnf list
+dnf list --installed
+dnf list --installed | grep <pkg-name>
+dnf list --available
+dnf search httpd			--> Search for apache
+dnf info httpd				--> get more info about the package
+dnf install tree
+which tree
+dnf install httpd -y		
+dnf reinstall httpd -y
+dnf remove httpd -y
+
+dnf history					--> displas the history performed using dnf
+dnf history undo <ID>		--> This will undo the operation we perfomed using dnf
+
+sudo 						--> Superuser and do
+sudo su						--> Switch to root user
+sudo su -					--> Switch to root user
+sudo -i						--> Switch to root user
+
+
+service httpd status		--> Simplified command
+
+systemctl status httpd			--> to know the status of httpd service
+systemctl start httpd			--> to start httpd service
+systemctl restart httpd			--> httpd service will be restarted
+systemctl enable httpd			--> Make httpd service as logon service (service starts automatically after restart)
+systemctl start httpd --now
+
+========
+
+Process Management (PID) : a unique identifier assigned by OS to each running process.
+
+
+top 			--> shows realtime view of running processes
+sleep 300 
+ps aux 			--> shows detailed list of all processes for all users
+					a --> all users
+					u --> user/owned process
+					x --> not attached to terminal
+
+pidof <name>
+pidof httpd			--> displays all the process ids related to httpd
+
+htop				--> Interactive version of top (better ui)
+kill <processid>	--> kills the defined process
+kill -9 <proc-id>	--> Forcefully kills the process, we use when normal kill is not working
+
+pstree				--> Shows the process tree in hierarchy structure
+pstree | less
+
+uptime				--> shows the system uptime
+free -h				--> Shows memory usage
+free -s 2
+
+=====
+/etc/passwd			--> Contains users information
+$ --> You are a normal user in linux
+# --> You are the root (superuser) in linux
+
+
+always, root user id is "0"
+
+id <username>		--> To identify the user info i.e; uid, groups he is part of
+useradd				--> Create a new user
+passwd <username>	--> Command to set a password for a user
+groups <username>	--> List all the groups he is member of
+
+usermod -aG wheel <username>	--> add user to wheel group
+
+groupadd <group-name>					--> create a new group
+groupmod -g <grp-name> <username>		--> Add a user to a group as primary
+groupmod -aG <grp-name> <username>		--> Add a user to a group as secondary
+gpasswd -a <user-name> <group-name>		--> Will add user from a group
+gpasswd -d <user-name> <group-name>		--> Will delete user from a group
+deluser <username>
+
+/etc/ssh/sshd_config
+
+(line 65) Edit "passwrod authentication to yes"
+
+systemctl restart sshd
+
+sudo passwd ec2-user
+Set a password for ec2-user
+
+--> Tty to login as ec2-user using password
+
+
+---
+
+--> ec2-user/root
+
+sudo useradd rohit	--> user created
+sudo passwd rohit	--> setup password
+sudo usermod -aG wheel rohit		--> Added rohit user to wheel group
+sudo vim /etc/ssh/sshd_config	--> Edit the sshd config and set "passwrodauthentication yes"
+sudo systemctl restart sshd
+
+---
+
+Numeric / Octal: 
+
+r --> read --> 4
+w --> write --> 2
+x --> execute --> 1
+
+user (owner)
+group
+others
+
+rwx --> 4+2+1 --> 7
+rw- --> 4+2+0 --> 6
+r-x --> 4+0+1 --> 5
+r-- --> 4+0+0 --> 4
+-wx --> 0+2+1 --> 3
+-w- --> 0+2+0 --> 2
+--x --> 0+0+1 --> 1
+--- --> 0+0+0 --> 0
+
+- rw- r-- r--
+
+- type
+rwx --> user
+rwx --> group
+rwx --> others
+
+chmod 600 filename.txt			--> Owner: read and write.. No access to others
+chmod 777 filename.txt			--> Everyone has all the permissions
+
+Sticky bit permisisons : 
+
+chmod 1777 folder	--> avinash --> a.txt b.txt ... anudeep: c.txt
+Avinash can delete only a.txt b.txt.. he cannot delete files created by other users..
+
+ls -l				--> View permisisons
+stat <f-name>		--> Detailed file info
+getfacl <f-name>	--> View Access control list in detail
+
+getfacl a.txt 
+# file: a.txt
+# owner: ec2-user
+# group: ec2-user
+user::rw-
+group::r--
+other::r--
+
+----
+adduser avinash
+    2  adduser anudeep
+    3  adduser aravind
+    4  groupadd devteam
+    5  groupadd managers
+
+usermod -aG devteam avinash 
+usermod -aG devteam anudeep 
+usermod -aG managers aravind 
+
+sudo -u anudeep mkdir /home/anudeep/private
+
+now try to access/list anything from anudeep's private directory as any other user.. It should not work
+
+====
+
+cd /opt
+mkdir devprojects
+chgrp devteam /opt/devprojects
+chmod 775 /opt/devprojects
+
+--> We tried to create files as devteam members (avinash and anudeep), worked
+--> We tried to create files as managers team members (aravind), not worked
+
+===
+
+cd /tmp
+mkdir temp_team
+chmod 1777 /tmp/temp_team			--> This enables the sticky bit
+
+now, switch to avinash user and create file "touch avinash.txt" and write some info
+change file permisisons to everyone "chmod 777 avinash.txt"
+
+Then, switch to anudeep user and try to access the file and try to add info using "echo", should work.. delete should not work
+
+===
+
+find / -name avinash.txt			--> Search for avinash.txt file in entire linux
+find /home -name avinash.txt		--> Search for avinash.txt file in /home dir
+find . -name avinash.txt			--> Search for avinash.txt file in current dir
+find / -iname Avinash.txt			--> Search for avinash.txt file in entire linux (Case Insensitive)
+
+find / -iname httpd.conf			
+find / -type f -name "*.conf"		--> it looks for all the "file" with format ending with "conf"
+find / -type d -name logs			--> Lists the directory named "logs" in entire linux
+
+dnf install mlocate -y			--> Installs the locate package
+updatedb						--> locate updates its db
+locate <filename>
+locate <dir-name>
+
+===
+
+tee (T junction pipe) --> takes the output of a command and writes it to two places (in console and file)
+tee command works better with sudo
+
+ls -l | tee output.txt				--> Output displays in terminal and stores the info in output.txt
+echo "test data" | sudo tee /etc/test.conf
+ls | file1.txt file2.txt			--> end output to multiple files
+ping google.com | tee ping.log
+
+===
+
+HEREDOC/EOF is a command to create a file..
+
+cat <<EOF > aws1.txt
+iam
+s3
+ec2
+vpc
+rds
+cloudwatch
+cloudtrail
+EOF
+
+===
+
+sed --> Stream Editor : it edits text automatically without opening the file.
+
+
+echo "i like banana"									--> output: i like banana 
+
+echo "i like banana" | sed 's/banana/mango/'			--> output: i like mango
+
+sed 's/s3/cloudwatch' aws.txt			--> This displays the output with changes but dont edit the file
+
+sed -i 's/s3/cloudwatch' aws.txt		--> changes text inside the file also
+
+sed -i 's/s3/cloudwatch/g' aws.txt		--> add parameter to change all the occurances 
+
+sed '/cloudwatch/d' 					--> Deletes all lines matches with word
+
+sed -n '1,3p' aws.txt 					--> Displays from line 1 to 3
+
+sed -n '5p' aws.txt 					--> Displays only line 5
+
+sed '/iam/a new servcie adds here' aws.txt		--> adds a new line after iam line
+
+
+====
+
+
+SCP : 
+
+Works between linux machines only.. 
+
+WinScp : Windows laptop <--> Linux ec2 instance 
+
+scp <options> source destination
+
+scp file.txt username@instance-ip:/path-inside-instance
+
+scp -i keypair.pem file.txt username@instance-ip:/home/ec2-user
+
+scp -r foldername username@instance-ip:/path-inside-instance
+
+scp -i keypair.pem -r foldername username@instance-ip:/path-inside-instance
+
+scp -i keypair.pem username@instance-ip:/path-inside-instance .
+
+====
+
+ip addr
+ip link
+
+want to list all TCP/UDP ports 
+
+
+ss -tulnp					--> lists open ports with associated process names
+ss -tulnp | grep 80
+
+sudo lsof -i :80			--> Checks the specific port is open and which user is using it.
+
+telnet <remote-instance-ip> <port-num>
+openssl s_client -connect <remote-instance-ip>:<port-num>
+
+openssl s_client -connect 13.51.64.84:80
+
+
+To verify nameserver / server resolutions: 
+dig google.com
+nslookup google.com
+host google.com
+
+====
+
+CRON JOBS:
+
+dnf install cronie -y		-->	Install crone package
+   40  systemctl enable crond --now
+   41  sudo systemctl enable crond --now
+   42  sudo systemctl status crond
+   
+
+crontab -l 					--> list configured jobs
+crontab -e
+
+===
+
+init 6					--> restart
+init 0					--> shutdown
+
+===
+
+
+How to measure volume performance:
+
+
+IOPS : Input and output operations per second
+
+Block size : 4 kb, 8kb, 16kb
+latency : the time taken to process a single I/O operation
+Throughput : at what rate data trasferred.. Mb/s, gb/s
+
+IOPS = throughput x 1024 / BlockSize
+
+---
+
+
+AWS EBS volume types:  gp2, gp3, io1, io2, sc1, st1 and standard..
+
+root volume = contains OS, without this we cannt launch an ec2 instance
+
+root volume = gp2, gp3, io1 and io2
+addl volume = gp2, gp3, io1, io2, sc1, st1 and standard
+
+---
+
+SSD : gp2, gp3, io1 and io2
+
+gp2 and gp3 : general purpise SSD : Most common workloads will use this volume type.. 
+
+gp2 : Min 1gb, max 16 tb
+gp3 : min 1 gb, max 64 TiB
+
+--
+
+io1 and io2 : If any workload that require specific IOPS count.. 
+
+io1 : Min 4 gb, max 16 tb
+io2 : min 4 gb, max 64 TiB. (Min: 100 IOPS.. Max: 100000)
+
+--
+
+HDD : Hard disk drive : bit older.. less performance compared to SSD..
+
+Throughput optimised HDD / st1 : Suitable for bigdata, data warehousing and log processing.. 
+COld HDD / sc1 : Less perf than st1.. less cost.. 
+Min: 125 gb.. Max: 16 TB
+
+---
+
+standard (magnetic) : low cost storage solution.. Less used.. Min : 1gb max 1 TB
+
+---
+
+lsblk
+df -Th
+file -s 
+mkfs -t xfs
+mount <vol> <dir-name>
+xfs_growfs
+growpart
+
+
+lsblk : how many volumes we have (OS detected) (It detects volume that even not used by OS)
+volume name : nvme0n1
+Volume path: /dev/nvme0n1
+
+df -Th		--> Shows OS used volumes along with type of file system and volumes in human readable format.
+Shows only mounted volumes..
+
+Volume and ec2 instance should be in same AZ.. 
+
+Create a new volume (size: gb) in same az as existing ec2 instance.. Attach the volume to ec2 instance..
+
+New volume name : nvme1n1
+New Volume path: /dev/nvme1n1
+
+Windows: FAT32, NTFS, ReFS
+Linux : ext3, ext4 and xfs
+
+Verify file system by running below command
+
+file -s /dev/nvme1n1		(returns: data --> No file system.. XFS --> file system presented)
+
+mkfs -t xfs /dev/nvme1n1
+
+mount /dev/nvme1n1 newvol/
+
+When we run mount command, a temp entry creates in "/etc/mtab" file.. This file refresh after reboot.. To make this vol perm mounted to the directory.. grab the entry and write it to "/etc/fstab" file..
+
+/dev/nvme1n1 /home/ec2-user/newvol xfs rw,seclabel,relatime,attr2,inode64,logbufs=8,logbsize=32k,sunit=8,swidth=8,noquota 0 0
+
+mount -all
+
+====
+
+To increase an existing volume size, first increase the size in AWS console.. then we need to perform OS level operations..
+
+xfs_growfs -d /home/ec2-user/newvol				--> This will increase the existing volume file system..
+
+====
+
+TO increase the root volume size.. First increase the volume size in AWS console.. Then Identify the root volume partition name..
+
+growpart <volname> <part-number>
+
+growpart /dev/nvme0n1 1
+
+Then, reboot the instance
+
+** In AWS, We dont have any option to decrease the volume size.. 
+
+==
+
+DLM : We can automate the snapshot creation process (periodically).. 
+
+Choose Instance : All the volumes attached to that instance.. (Do you want to Exclude root volume)  
+Choose Volume : Individual volume only..
+
+Schedule : 6 hrs.. 
+
+Instance selection : Envrionemnt : Prod
+
+Do you want to copy this snapshot to other region.? or other account automatically.??
+
+====
+
+lsblk -f 
+
+NAME          FSTYPE FSVER LABEL UUID                                 FSAVAIL FSUSE% MOUNTPOINTS
+nvme0n1                                                                              
+├─nvme0n1p1   xfs          /     9a57ac2f-bfe7-4e29-bf89-56caddc22c97    5.9G    25% /
+├─nvme0n1p127                                                                        
+└─nvme0n1p128 vfat   FAT16       9682-52BE                               8.7M    13% /boot/efi
+nvme1n1       xfs                49fe2293-8670-4afb-ae18-937fe3263901    1.9G     2% /home/ec2-user/newvol
+nvme2n1       xfs                49fe2293-8670-4afb-ae18-937fe3263901 
+
+---
+
+To fix this issue: 
+sudo dnf install -y xfsprogs
+
+generate a new UUID:
+sudo xfs_admin -U generate /dev/nvme2n1
+
+lsblk -f
+
+mount /dev/nvme2n1 /home/ec2-user/tryvol
+
+---
+
+In my current project, We have scheduled ec2 snapshots backup using DLM service, Based on environment and client SLA, we have configured backup frequency.. We are using ec2 instance tags to pick the instances from DLM service.. We have not fixed with one schedule for backup and retention.. schedule varies from environment to environment.. Ex: production, We have scheduled backup for every 12 hrs.. but UAT and Dev & others configured to have backup for every 24 hrs.. 
+backup retention is configured based on environment.. for production: 7 days, NonProd: 3 days..
+
+---
+
+Requirement : Need 10 ec2 instance with all custom settings.. install packages i.e; tree, apache, volume (2gb)..
+
+Option 1 : Launch Instance-1 configure everything.. Deliver.. Now take insatnce-2, configure and deliver....
+
+Option 2 : Launch Instance-1 configure everything --> Create a AMI (GoldenAMI) --> Launch 9 instances from GAMI..
+
+
+---
+
+
+dnf install httpd tree -y
+systemctl enable httpd --now
+systemctl status httpd
+
+DocumentRootPath: /var/www/html/
+
+Create / copy all your webcontent to this locaiton..
+
+vim index.html --> Add your webcontent			--> http://43.205.242.132/
+vim sandeep.html --> Add your webcontent		--> http://43.205.242.132/sandeep.html
+
+
+nvme1n1
+/dev/nvme1n1
+
+file -s /dev/nvme1n1
+
+mkfs -t xfs /dev/nvme1n1
+cd /opt
+
+mkdir newvol
+
+mount /dev/nvme1n1 newvol/
+
+tail -n 1 /etc/mtab
+
+vim /etc/fstab
+
+mount -all
+
+--> enabled password login for ec2-user and created avinash user.. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

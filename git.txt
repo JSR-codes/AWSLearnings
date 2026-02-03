@@ -1,0 +1,276 @@
+
+VCS : Version Control System : 
+
+1970 - SCCM - 1 file
+rcm - revision control system -     x file, 1 directory
+cvs - concurrent version system - x files, x direc, 1 user
+
+2000 - SVN  - x files, x dir, x users
+2005 - GIT - Global Information Tracker
+
+
+Repository : Project Code storage location.. 
+Clone : Making another copy of the existing repo..
+
+Local Repository : 
+Central / Remote Repository : 
+
+Install and configure git..
+
+git config --global user.name "avinash"
+git config --global user.email "avinash@gmail.com"
+git config --list
+git config --global --edit
+git config --global core.editor "vim"
+
+git init						--> onetime.. 
+git add	.						--> Git will track the files and changes
+git commit -m "commit msg"		--> Code/files commits to local directory
+
+git status						--> To know/identify the current status
+
+git log							--> To get commit hostory with info
+git log --oneline				--> simoplified commit history
+git log --oneline --author="root"	--> To get specific user commits
+git show "commit-id"			--> displays the specif commit details
+
+
+===========
+
+Configure .gitignore
+
+==========
+
+ls -al ~/.ssh
+
+ssh-keygen -t ED25519 -C "avizway@gmail.com"
+
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+
+cat ~/.ssh/id_ed25519.pub
+
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAgM+j2Pr2tQoCaz5QPjUkilWypWxqZHYvfscRgBdp/y avizway@gmail.com
+
+-- Grab the above public key info and add it to github account.. Settings "SSH and GPG keys" --> add new ssh key..
+
+Verify: ssh -T git@github.com
+
+---
+
+
+Our local repo dont have remote repo information.. We have to add it.. 
+
+git branch -M main
+git remote add origin https://github.com/avizway1/awar06-git-code.git
+git push -u origin main
+
+------
+create a new repository on the command line
+------
+
+mkdir awar06-git-code
+echo "# awar06-git-code" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/avizway1/awar06-git-code.git
+git push -u origin main
+
+
+=======
+
+push an existing repository from the command line
+git remote add origin https://github.com/avizway1/awar06-git-code.git
+git branch -M main
+git push -u origin main
+
+---
+
+git remote -v				--> We can identify the remote origin configured in your local repo
+
+git remote show origin		--> Show detailed remote repo configuration info
+
+---
+
+git fetch					--> fetches the latest inforamtion/metadata to local repo
+
+git pull					--> updates your local repo with code changes
+
+---
+
+Branching : 
+
+git branch					--> Shows the git branches
+
+git branch feature-x		--> creates a branch with name feature-x
+
+git checkout feature-x		--> Switches to feature-x branch - traditional
+git switch feature-x		--> Switches to feature-x branch - modern
+
+git checkout -b feature-y	--> Creates a new branch and checout/switch to it
+
+main --> 2 files --> Switched to Feature-x created 3 files --> ls (main + f-x) = 5 files
+
+touch feature-x{1..3}.txt
+git add .
+git commit -m "added feature-x code"
+
+--> switch to main as we want to merge feature-x to the main repo
+
+git switch main
+
+git merge feature-x				--> now feature-x code added to main branch
+
+git push -u origin feature-x		--> To push a specific branch to remote repo
+
+===========
+
+step 1 : create a repo and add a file info.txt
+
+hello
+My Name is ABC
+Working as XYZ
+
+--
+
+Step 2 ; Clone the repo into ec2 instance
+
+git clone <repo-url>
+cd <repo-url>
+git checkout -b branch1
+
+vim info.txt
+
+hello
+My Name is Avinash
+Working as AWS Engineer
+
+git add info.txt
+git commit -m "added avinash info"
+
+** DO NOT PUSH or MERGE
+
+==========
+
+Step 3: Switch your laptop
+
+Git clone <repo-url>
+cd <repo>
+
+edit info.txt
+
+hello
+My Name is Anudeep
+Working as Digital marketing Executive
+
+git add info.txt
+git commit -m "added anudeep info"
+git push origin main
+
+============
+
+Step 4 : Switch back to ec2 instance
+
+git switch main
+git pull origin main
+
+--
+
+git merge branch1
+
+======
+
+edit the file and resolve the conflict then commit and push it to repo
+
+Hello
+<<<<<<< HEAD
+My Name is Anudeep
+AM working as Digital marketing Executive
+=======
+My Name is Avinash
+AM working as AWS Architect
+>>>>>>> branch1
+
+================================
+
+Rebase : Pick my work and place on top of the latest work.. 
+
+Git Temp removes your commit
+Moves your branch to the latest main commit
+re-applies our commit on top it.
+
+--> Merge : Combines the paths with a merge commit
+--> Rebase : replays our work on top of existing latest work
+
+--------------
+
+
+HEAD --> Where am right now.. HEAD always points to the current commit you are working on. 
+
+--
+
+GIT Restore : undo the file changes, Not commits..
+
+Whatever the file edit you have without commits, it will undo
+
+---
+
+GIT Reset : move HEAD backward.. This erase commits and go back
+
+THis reqrites the history
+
+---
+
+Stash : Saves our unfinished work and clean my workspace for further work.. (Hides our changes temp)
+
+--> Working on a full feature, Your code is not ready commit, 
+but you need to switch to a brqnch and do some other work to fix an issue/bug.
+
+
+git stash			--> Save changes temporarily
+git stash list		--> Shows all stashed changes
+git stash apply []	--> Brings back the changes
+git stash pop []	--> apply the change and then removes 
+git stash drop		--> delete the stash
+git stash clear		--> delete all stashes
+
+----
+
+git cherry-pick : We cna use this to pick one particular commit..
+
+Git cherry pick helps us to selectively copy a single commit from one branch to another b ranch without merging everything.
+
+--
+
+diff :  With the help of diff, we can see what changed.
+
+--
+
+fork : From an existing repo, we can take a copy of it to our account and we can do our own changes based on our requirement.
+
+If you want to send these changes to the main/base repo, you can create a pull request, the main repo owner has to accept the changes.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

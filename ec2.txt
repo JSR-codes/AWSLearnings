@@ -1,0 +1,750 @@
+Server = Computer designed to process requests, store data and provide services/resources.
+
+Desktop / Laptop = Designed for day to day activities.. 
+Server = Designed to run always.. 
+
+CPU
+memory
+Network (NIC / WiFi / LAN)
+Graphic
+
+
+Web Hosting
+Database Hosting
+Gaming
+Email Server
+File/Storage Servers
+
+--> What are the components required to deliver a website to outside world. (instagram)
+
+
+Code (api)						--> CICD to automate
+Load balancer					--> ELB
+Server --> OS License			--> EC2
+Database --> Db license			--> RDS / DynamoDB
+Storage							--> S3
+Network (Firewall / switches)	--> VPC
+Security (Physical / SSL/TLS)	--> CM
+Domain name						--> Route53
+Cooling Systems
+Power (Redundant)
+Internet		
+
+
+EC2 : Elastic Compute Cloud : 
+
+Instance --> Server
+
+
+On-Demand Instances : Unpredictable Workloads.. SHort term testing.. 
+--> Charged based on actual usage (pay-as-you-go) - PAYG
+--> More suitable to test our workload, if our workload has unpredictable access patterns..
+--> Workload that required flexibility to scale (upgrade/downgrade) the resources
+
+
+SDLC : Software Development Life Cycle :
+
+Training/Sandbix account : POC : Proof of concept  	--> Small
+Dev : Development									--> low conf
+QA : Testing										--> low
+UAT : Similar to Prod env							--> High conf
+PRD : Production / live								--> V High conf (1L Cu) --> 2L
+
+---
+
+B2B ==> Business to Business
+
+---
+
+Reserved Instances / RI : More suitable for prediuctable worklaods.. 
+--> We go to a reservation with AWS for 1 yr - 3 Yrs..
+--> We get this instances at low price, compared to on-demand
+
+Standard : No config changes allowed during the reservation period.
+Convertible : Config can be changed (instance family / OS Family).
+
+Payment option:
+Full Upfront : Pay all the money first and purchase your config. No monthly charges..
+Partial Upfront : Pay 40-70% now, AWS will reduce the hourly price.. Based on your usage, at reduced price, you get charged..
+No Upfront : No need to pay anything now, but have to pay monthly basis, based on usage..
+
+--> We can register as seller and sell our unused reserved ec2 instance hours via AWS Marketplace
+
+===
+
+Spot Instances : For flexible workloads with "NO CRITICAL DATA"
+--> We have to bid our price against AWS pricing.
+--> if our quoted price is equal to AWS spot price or higher than AWS spot price, AWS allocate the instance.
+--> Due to demand, if spot price increased than your quoted, AWS Terminate the resources with just 2 min interruption warning.
+--> We dont use this for unrecoverable or imporabnt workloads.
+--> To test vey high configs at low price.
+
+You Bid for an ec2 instance and you go the ec2 instance (Bid price : 0.50$).. You used this instance for 2 hours 45 minutes..
+
+--> Price Increased by AWS and Instance terminated... We will get charged for full hours .. No cost for partial hours.. (2 Hrs)
+--> No changes in Price, You done with your worload and you Instance terminated... We will get charged for total duration.. (2 hrs 45 min)
+
+----
+
+OS : AMI (Amazon Machine Image) : linux, Windows
+CPU / Processor & RAM /Memory : These 2 coponents comes as a bundle (Instance Type)
+Storage / Hard Disk : EBS (Elasic Block Storage) : SSD, HDD and Magnetic
+Network :  NIC/ ENI (Elastic network Interface) : 
+Firewall - Security Group (windows - RDP (3389), Linux - ssh(22))
+
+
+Step 1 : Add tags 
+
+Name : My-Windows-demo
+Project : WTC-project
+Client : C1
+Platform : Windows
+CostCenter : AAZAA
+
+Step 2 : Choose an AMI (Amazon machine Image) : Choose OS
+
+AMI : pre-configured template of an Operating System provided by AWS. We no need to install OS on H/W. AWS runs the selected AMI on selected Instance type.
+
+
+Step 3 : Choose an Instance Type
+
+General purposes : Balanced compute, memory and networking.. small and mid sized DB / Web apps.. (T, M)
+Compute optimised : for CPU intensive workload/tasks.. HPC, Batch Processing.. C4, C5, C6
+Memory optimised : memory intensive app.. DB, Distributed in memory workload.. r4, r5, x1, z1
+Storage Optimised : Better IOPS.. Distributed DB, graph DB.. i4, i3, d
+GPU Optimised : Graphic units.. Machiene learning, gaming, AI.. f1, p3, g
+
+m5.large
+c6.xlarge
+
+General purpose: M1 | M2 | M3 | M4 | T1 | T2
+Compute optimized: C1 | C3 | C4
+Memory optimized: R3 | R4 | X1 | X1e
+Storage optimized: D2 | H1 | I2 | I3
+Accelerated computing: F1 | G3 | P2 | P3
+
+Step 4 : Choose Keypair
+
+Public Key : Stores in AWS, AWS COpies inside ec2 instance (lock)
+Private Key : (.pem) : Download and store in our laptop. 
+
+Both the keys required to connect to ec2 instance. Designed for secure authentication with encryption.
+
+
+Step 5 : Choose network settings
+
+--> Make sure to open required port based on your OS
+Windows --> 3389 --> RDP (Remote Desktop Protocol) --> Anywhere/Custom/myIP
+Linux --> 22 --> SSH (Secure Shell) --> Anywhere/Custom/myIP
+
+RDP --> Anywhere
+
+Step 6 : Choose Storage
+
+Go with the default storage for now.
+Root Volume --> A Volume that contains OS of our Instance.
+
+====
+
+
+MacOS : Navigate to AppStore --> Search "Windows App", Install it
+
+Windows : No addl software required..
+All windows laptops defaultly have "RDP tool"
+Open RUN (win + R) --> Type "mstsc" --> Click on enter
+Now, RDP tool opens --> Enter "pubic Ip" at Computer name field.
+Browse keypair and get the username and password, then enter that cred.. 
+
+
+Public IP : unique across the globe : 
+Private IP : unique within the network, Wont work outside of your network..
+
+1. Terminate : Delete : you dont need this instane and its data anymore..
+2. STOP : We have an option to start the instance again.. We dont loss any data.. 
+
+==============
+
+Linux : 
+
+Step 1 : Choose tags
+
+Step 2 : Choose AMI (Amazon machiene Image) : Linux
+
+Step 3 : Choose instance type
+
+Step 4 : Choose an Existing keypair / Create a new keypair
+
+Step 5 : Choose Network
+
+SG --> SSH --> Port 22
+
+Step 6 : Choose storage 
+
+Step 7 : Review and launch
+
+linux : Open Source Operating System : 
+Free to use.. Source code is available, anyone case use it without liceses.. Distribute..
+Secure : Linux is less prone to malware, viruses..
+Performance : TO run linux OS, we dont need high config hardware.. (OS consumes very less resources)
+
+ubuntu
+fedora
+redhat/rhel (RedHat enterprise linux)
+oracle linux
+amazon linux
+centos
+kali linux
+debian
+puppy linux
+parrot os
+alma linux
+alpine
+bookwarm
+raspbian
+
+
+Linux Connect options : 
+
+Option 1 : browser connect : (SSH should be open for everyone) : CHoose instance, click on "connect", choose "EC2 Instance Connect" --> connect
+
+Option 2 : Default terminal / command prompt.. 
+(win + R --> cmd)--> verify ssh status.. ssh
+
+ssh -i "keypair" ec2-user@<public-ip>
+
+ssh -i "awar06-lnx.pem" ec2-user@13.235.74.146
+
+Option 3 : Putty
+https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html
+
+option 4 : github
+
+Option 5 : MobaXterm
+
+
+fix permissions error in windows : 
+
+icacls "keypair" /inheritance:r
+icacls "keypir" /deny Everyone:F
+icacls "keypair" /grant:r "%USERNAME%:R"
+
+
+
+Unix --> 1970 (OS) --> bell labs --> closed source
+Unix style OS --> Linux --> open source
+
+===========
+
+EBS : 
+Snapshots : 
+GoldenAMI
+
+===
+
+Mandatory : you have to stop ec2 instance to upgrade to higher confi.. 
+Recommended : for best result, you can follow.. 
+
+===
+
+Stop the instance --> Choose "Instance settings" --> "Image and template" --> "create image"
+
+Launch couple of instance from GAMI and verify the output.
+
+==
+
+Requirement : Increase the instance configuration from "t3.micro" to "t3.small"
+
+you have to stop ec2 instance to upgrade to higher confi.. We cannot perform this while instance is in running state.. 
+
+
+--> Public IP will change when we perform Stop and start.. (*Reboot --> Public IP wont chnage)
+
+http://13.127.254.77/
+
+13.201.87.212
+
+Elastic IP / EIP : We can generate an EIP and associate with an ec2 insatnce.. We will have fixed IP.. *EIP cost additinally
+
+13.203.253.110
+
+
+====
+
+Create a CRQ Change request : t3.micro --> t3.small
+
+CAB / Change Advisory Board : We have to present our change : 
+--> When it is planned.?							: Weekend (Saturday Morning - 04:00 AM)
+--> Is it client facing.? 							: No
+--> Any clinet approvals required.?					: No
+--> Does it involve with budgeting approvals.?		: yes, But minimul
+--> Does it required any downtime.?					: yes, approx 1 hr
+--> What is the rollback plan.?						: yes, change config to t3.micro
+--> What are the teams involved in this CRQ.? 		: production support, db, app.. 
+--> Have you created task for all the involved teams.? : yes
+--> Are you performing any Pre-CRQ steps 			: backup/snapshot
+--> Who do the validation post change.? 			: production support, application, aws
+
+==> Every org/project will have a monthly maintenance window / Green Zone window :  
+
+
+======
+
+dnf install httpd -y
+
+httpd -v					--> list the httpd version
+
+systemctl status httpd
+systemctl start httpd
+systemctl enable httpd
+systemctl restart httpd
+
+systemctl enable httpd --now
+
+/var/www/html/ 				--> Defualt DocumentRoot
+
+Apache configuration path : /etc/httpd/conf/httpd.conf
+
+<public-ip>					--> Defaultly picks port 80
+<public-ip>:8080			--> try to access webpages on port 8080
+
+
+Open configuration file : /etc/httpd/conf/httpd.conf
+
+Change Document root path to : /data/website
+
+then adjust the access to content
+
+<Directory "/data/website">
+    AllowOverride None
+    # Allow open access:
+    Require all granted
+</Directory>
+
+
+--> restart httpd
+
+Make sure Apache user has valid access on the configured path...
+
+chown -R apache:apache /data/website
+chmod -R 755 /data/website
+
+----
+
+Where i can find all the logs related to httpd. 
+/var/log/httpd
+
+access_logs
+error_logs
+
+---
+
+PortNumbers
+
+http : 80
+https: 443
+ssh : 22
+rdp : 3389
+mysql : 3306
+mssql : 1433
+nfs : 2049
+---
+
+
+EFS : Elastic File system : 
+
+--> No Pre-Provisioning required
+--> unlimited storage available, we get charged based on our usage.
+--> EFS works with NFS v4.2 protocol (Network file system)
+--> We can use this EFS with only Linux OS. 
+--> For windows, We have SMB protocol, We can use FSx for windows.. 
+
+--> Create a SG for EFS, Open port 2049.. 
+
+To where we need to open NFS port on EFS SG..
+1. Open to ec2 instance private IP addresses
+2. Open to VPC IP addresss
+3. Open to ec2 instances Security Group ** (Highly recommended)
+4. Open to everyone (Not recommended)
+
+
+EFS Sg --> 2049 --> Anywhere/MyIP/custom --> choose "custom" and enter "ec2 instances SG"
+
+1. Am using same security group for multiple ec2 instances.. SG Name: web-sg
+2. EFS Sg --> 2049 --> Anywhere/MyIP/custom --> choose "custom" and enter "ec2 instances SG"
+
+
+dnf install httpd -y
+systemctl enable httpd --now
+
+
+sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport fs-0084e55f0f5bb548d.efs.ap-south-1.amazonaws.com:/ /var/www/html/
+
+verify the mount using "df -Th" command
+
+Get entry from /etc/mtab and add it to /etc/fstab for perm mount.
+
+
+mount | grep nfs			--> Run this comamnd to know, on what all the path NFS is mounted on.. 
+
+
+----
+
+Cloudwatch Alarms: It monitors the AWS resources and triggers actions based on predefined threshoulds. We can integrate it with other services i.e; SNS.. 
+
+CW has 2 types of monitorings:
+1. Basic Monitoring : resource graphs updates for every 5 min interval
+2. Detailed Monitoring : resource graphs updates for every 1 min interval
+
+With Default cloudwatch monitoring, We cannot monitor "memory Usage" and "Disk space availability" metrics.. We have to Configure CW agent inside ec2 instance to get these metrics.. 
+
+Metric : CPU Usage, Network, status checks, disk usages
+Threshold : "Selected Metric" usage exceeding 80% for 5 min or more.. 
+Action : Send an Email.. Trigger an ASG.. Trigger a Lambda functon..
+
+
+dnf install stress -y
+
+nproc					--> To know cpu count
+
+CPU Stress
+stress --cpu 2 --timeout 600
+
+Memory Stress
+stress --vm 2 --vm-bytes 512M --timeout 60 
+
+---
+
+Alert types in 3rd party tools:
+Warning : 70% or more CPU, we will get warning alert
+Critical : 90% or more CPU, we will get critical alert
+
+---
+
+Stop Protection : Prevent ec2 instance stop action from the console. If you run "init 0"/ shutdown operation from OS level, It will stop the instance..
+
+Terminate Protection : Prevent ec2 instance Delete/terminate action. If you run "init 0"/ shutdown operation from OS level, It will terminate the instance..
+
+Shutdown behaviour : What should happen to the instance when we initialise shutdown from os level
+1. Stop (Default)
+2. Terminate
+
+---
+
+--> Production Support Team will receive the alert.. verify alert status..
+--> They log an incident.. (AWS, Application)
+--> Verify the metric.. Open a bridge call (NOC group / PMT )
+--> What are the teams involved on this resources..
+
+---
+
+EventBridge : 
+
+EventDriven Process : 
+Scheduled Processes : 
+
+Rules : 
+Schedules : 
+
+
+{
+  "source": ["aws.ec2"],
+  "detail-type": ["EC2 Instance State-change Notification"],
+  "detail": {
+    "state": ["stopping", "stopped"],
+    "instance-id": ["i-0e44a06fa86ac1046"]
+  }
+}
+
+
+
+
+{
+  "version": "0",
+  "id": "57214924-6034-f6f7-0564-feaeea76448c",
+  "detail-type": "EC2 Instance State-change Notification",
+  "source": "aws.ec2",
+  "account": "982424467695",
+  "time": "2025-11-26T02:43:26Z",
+  "region": "us-east-1",
+  "resources": [
+    "arn:aws:ec2:us-east-1:982424467695:instance/i-0e44a06fa86ac1046"
+  ],
+  "detail": {
+    "instance-id": "i-0e44a06fa86ac1046",
+    "state": "stopping"
+  }
+}
+
+---
+
+
+Any IAM user will have 2 types of accesses.. 1. Management console (un, pwd, browser).. 2. Programatic Access (AccessKeyID and SecretAccessKey)
+
+Pre-Req: Create an IAM user with Programatic Access
+
+AWS CLI : https://aws.amazon.com/cli/
+
+To configure AWS CLI, run "aws configure"
+Enter "AccesskeyID", "SecretAccessKey", "Region" and "output format"..
+
+aws sts get-caller-identity
+
+aws s3 ls
+
+aws s3 mb s3://bucketname
+
+aws ec2 describe-instances
+
+Add "--debug" argument to know what actually happening backend
+
+aws s3 ls s3://avinash-qcli-test --recursive --human-readable --summarize
+
+--> We can use profiles to access multiple AWS accounts
+
+aws configure --profile prd
+aws s3 ls --profile prd
+
+aws configure --profile uat
+aws s3 ls --profile uat
+
+=========
+
+aws login
+
+
+aws login --profile prd
+
+========
+
+[Environment]-[Platform]-[ServiceType]-[client-id]-[S.No]
+
+P-LNX-DBA-YES-01	--> PLNXDBAYES01
+
+Environments: 
+
+P --> production
+U --> UAT
+Q --> QA
+D --> Dev
+S --> Sandbox
+T --> Training
+
+Platform : OS
+
+WIN --> Windows
+LNX --> Linux
+
+Service Type: 
+
+APP --> Application Server
+DBS --> Databse Server
+WEB --> Web Server
+ADS --> Active Directory Server
+MBX --> mail Exchange Server
+HDP --> hadoop Dist Server
+
+Client :
+
+HDF
+ICI
+YES
+XYZ
+
+======
+
+Tags: 
+
+Platform : Windows
+Environment : Production
+Client : ICICI
+Cost Center : AAZAA
+Schedule : Daily
+
+===
+
+1. Create an IAM role and attach role to all the ec2 instances to manage these resources from Systems Manager / SSM.
+2. We should have appropriate tags to the resources (Easy our job to pick the resources)..
+
+
+===
+
+Userdata: We can pass comamnds to the instance while "we are launching".. 
+
+
+#!/bin/bash
+dnf install httpd -y
+systemctl enable httpd --now
+echo "<h1>This is my Userdata webpage</h1>" >> /var/www/html/index.html
+echo "<h2>test data</h2>" >> /var/www/html/index.html
+
+
+#!/bin/bash
+useradd avinash
+usermod -aG wheel avinash
+
+
+---
+
+SSM 
+
+run comamnd : Run commands inside ec2 instances without logging into OS.
+Fleet manager : We can see and track OS filesystems, users and processes without logging into OS.
+Session Manager : We can connect to EC2 instances without opening port 22/3389 at SG level.
+Parameter Store : We can store non-sensitive information that required to run our application..
+
+general process : Developers hardcode their credentials into "application.properties" file.. Who can read that file, can get the sensitive info.. 
+
+--> We can create a entry in parameter store and store the info..
+
+We can configure application to call the parameter whenerver application required the same info.. We are eliminating hardcoading the credentials..
+--> Secrets manager for sensitive info and also that requires rotation.. 
+--> Parameter store for non-sensitive info
+
+
+Layer 4 LB : Security guard at main gate..  : Network Load balancer (NLB).. (IP Address + Port + TCP)
+Layer 7 LB : Receptionist at Hotel.. (ALB) http/https.. URL.. DOmain.. Headers, Cookies, Query parameter..
+
+ELB : Elastic Load Balancer
+
+ALB : Application Load Balancer : layer 7 LB : http and https.. : Round robin algorith..
+NLB : Network Load balancer : Layer 4 LB : TCP, UDP, TLS..
+
+Classic Load Balancer : Outdates.. AWS Stopped supporting.. 
+
+
+#!/bin/bash
+dnf install httpd -y
+systemctl enable httpd --now
+echo "<h1>This is my web Server - 1A </h1>" >> /var/www/html/index.html
+echo "<h2>from ap-south-1a</h2>" >> /var/www/html/index.html
+echo "<h1>healthy</h1>" >> /var/www/html/status.html
+
+
+
+dnf install httpd -y
+systemctl enable httpd --now
+echo "<h1>This is my 8080 Server</h1>" >> /var/www/html/index.html
+echo "<h1>healthy</h1>" >> /var/www/html/status.html
+
+
+=============
+Dec 2nd 2025
+============
+
+Stickyness : Session sticks to one server/instance only for a configured period.
+
+ALB dont support fixed IPs.. We cannot associate EIP to ALB..
+
+
+Round robin - (default) : Round robin routes requests evenly across healthy targets, in a sequential order. This is commonly used when the received requests are similar in complexity and the targets are similar in processing capability.
+
+Least outstanding requests : Least outstanding requests routes requests to the target with the lowest number of in progress tasks. This is commonly used when the received requests vary in complexity or the targets vary in processing capability.
+
+Weighted random
+Weighted random routes requests evenly across healthy targets, in a random order. While Anomaly detection is applied by default, you must turn on Anomaly mitigation for Automatic Target Weights (ATW) to apply.
+
+=====
+
+Network LB / NLB : Supports TCP, UDP, TLS.. 
+
+--> We can associate a dedicated Public IP address for our NLB.
+
+ALB dont support fixed IPs.. We cannot associate EIP to ALB..
+
+NLB works with "Flow hash Algorithm"...
+
+====
+
+Dec 3rd
+
+=====
+
+
+sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport fs-0121a78f3438b333b.efs.ap-south-1.amazonaws.com:/ /var/www/html/
+
+fs-0121a78f3438b333b.efs.ap-south-1.amazonaws.com:/ /var/www/html nfs4 rw,relatime,vers=4.1,rsize=1048576,wsize=1048576,namlen=255,hard,noresvport,proto=tcp,timeo=600,retrans=2,sec=sys,clientaddr=172.31.1.246,local_lock=none,addr=172.31.6.213 0 0
+
+
+http status code:
+
+2XX --> OK/Success
+3XX --> Redirection
+4XX --> CLient Side errors
+5XX --> Server Side errors
+
+----
+Dec 4th
+----
+
+metadata : Data about the data.. 
+
+We can use a metadata url to query instance to get information about the instance..
+
+curl http://169.254.169.254/latest/meta-data/
+
+ami-id
+ami-launch-index
+ami-manifest-path
+block-device-mapping/
+events/
+hostname
+iam/
+identity-credentials/
+instance-action
+instance-id
+instance-life-cycle
+instance-type
+local-hostname
+local-ipv4
+mac
+managed-ssh-keys/
+metrics/
+network/
+placement/
+profile
+public-hostname
+public-ipv4
+public-keys/
+reservation-id
+security-groups
+services/
+
+
+---
+
+SLA : Service Level agreement : 
+
+99.99%
+99.999999999%
+
+
+RPO : Recovery Point Objective : How much data we can offered to lose... 
+RPO : 30 Minutes.. Create a snapshot for every 30 min.. 
+
+RTA : Recovery Time Actual : How long it will take to bring the server backup / can fix issue.. 
+RTA : System down at 08:30 AM and by 09:00 AM we fully brought the system online.. RTA: 30 Min..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

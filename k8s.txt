@@ -1,0 +1,352 @@
+
+
+
+Manual Scaling and Managing the container is hard.. 
+If any container is down, manually we need to run again..
+Easy for lab/home workloads, but not suggestable to run production grade workload without Orchestators.. 
+
+Orchestrator: Auto Scaling, Self healing, Network setup, workload schedules..
+K8s
+
+K8s mainly contains 2 Parts:
+
+Control Plane Components : Brain of K8s.. Managed by AWS.. WE DONT HAVE OPTION TO CONNECT IT.. 
+
+--> kube-apiserver / API Server : front door of the k8s.. (we use "kubectl" to communicate with api server )
+
+--> etcd (Database) : It contains all the cluster data.. Information stores in "Key and Value" (name=webserver)
+	Stores "Desired state" and "current state" of our k8s
+	
+--> Controller manager (kube-controller-manager) (Supervisor) : monitors "etcd" and helps to match the desired 	state..
+
+--> Scheduler (kube-scheduler) (Decision maker) : This decides at what "node" the workload should run/create.
+
+--> Cloud Controller manager (CCM) : helps to connect cloud provider's K8s cluster i.e; eks, aks, gke.. Loadbalancer.. Monitoring.. 
+
+----
+
+Worker Node Components : This is where our workload runs.. (ec2, fargate, server)
+
+--> kubelet : THis is an agent runs in each worker node.. This component talks to API Server.. If pod Crashes, kubelet restarts it automatically.. 
+
+--> Container Runtime : responsible to pull and run containers.. K8s uses "CRI-O" and "containerd".. Used to support Docker.
+kubelet asks the container runtime to pull the image based on the instructions it received from api-server. This runtime starts the container inside the pod.
+
+--> kube-proxy (network) : This componet manages the networking rules and pod communications.. This is responsible to allocate a unique IP address for every pod we run.. 
+
+---
+
+pod : Smallest deployable unit in K8s.. Pod is nothing but a wrapper to the container.. 
+
+Replica Set : 
+
+Deployment : 
+
+----
+
+EKS : Elastic Kubernetes Service : Fully managed K8s service provided by AWS. 
+
+Managed Control plane by AWS. AWS Provides HA and reliability to eks cluster as default option.
+We can integrate with other AWS services. (IRSA/VPC/ALB/ route53 / Cloudwatch)
+for HA, AWS maintains 3 copies of control plane components across 3 AZs.. 
+We dont get access to the control plane nodes managed by AWS.
+
+EKS Data Plane operation : Its the place where our workload runs.. 
+
+EC2 Self Managed Node group : 
+--> As a customer, we have to provision the ec2 instances, we have to configure the ec2 instances..!!
+--> We have to take care about the OS updates/ patches, Scaling activities.
+
+EC2 Managed Node group : 
+--> AWS automatically provision and managed the ec2 instances.
+--> AWS take care about the OS updates/ patches, Scaling activities.
+--> AWS uses Amazon Linux 2023 / Bottlerocket.
+--> We need to choose the required number of instances and instance type.
+
+AWS Auto-Mode : EKS Auto Mode extends AWS management of Kubernetes clusters beyond the cluster itself, to allow AWS to also set up and manage the infrastructure that enables the smooth operation of your workloads. You can delegate key infrastructure decisions and leverage the expertise of AWS for day-to-day operations. Cluster infrastructure managed by AWS includes many Kubernetes capabilities as core components, as opposed to add-ons, such as compute autoscaling, pod and service networking, application load balancing, cluster DNS, block storage, and GPU support.
+
+AWS fargate : Serverless, No nodes to manage, Directly we can deploy pods. pay-as-you-go.. 
+
+
+===========
+
+Most of the times, we use eksctl to create EKS cluster.. THis has some pre-req:
+
+1. aws cli tools install & configure		(aws.amazon.com/cli)
+2. kubectl									(https://kubernetes.io/docs/tasks/tools/)
+
+3. install eksctl
+https://docs.aws.amazon.com/eks/latest/eksctl/installation.html
+
+
+eksctl create cluster --name=ekswithavinash --version 1.34 --region ap-south-1 --zones=ap-south-1a,ap-south-1b --nodegroup-name ng-default --node-type c7i-flex.large --nodes 2 --node-ami-family=AmazonLinux2023 --managed
+
+
+
+eksctl create cluster --name=ekswithavinash --version 1.34 --region ap-south-1 --zones=ap-south-1a,ap-south-1b --nodegroup-name ng-default --node-type c7i-flex.large --nodes 2 --node-ami-family=AmazonLinux2023 --managed
+
+eksctl utils associate-iam-oidc-provider --region ap-south-1 --cluster ekswithavinash --approve
+
+
+----
+
+CNI : Container Network Interface		: THis is a network plugin.. This helps to extend the container network with existing network..
+
+VPC CNI : Virtual private Cloud Container Network interface : 
+
+--> IPAM (IP Address management)
+--> pod Networking
+--> k8s network polocies
+
+-----
+
+OIDC : IAM OpenID Connect : This allows AWS IAM to authenticate with K8s Service accounts, IAM Permissions / roles.
+
+aws eks describe-cluster --name ekswithavinash
+
+eksctl utils associate-iam-oidc-provider --region ap-south-1 --cluster ekswithavinash --approve
+
+EKS CLuster configuratio will be stored in our local laptop.. 
+Path : /Users/username/.kube/config
+
+
+aws eks update-kubeconfig --region ap-south-1 --name ekswithavinash
+
+---
+
+eksctl 		--> helps to create cluster
+kubectl 	--> helps to interact with k8s cluster
+
+kubectl get pods						--> Display pods from default namespace
+
+kubectl get pods -A						--> Display pods from ALL namespace
+kubectl get pods --all-namespaces		
+
+
+kubectl apply -f 01-pod.yaml			--> THis will create a pod
+kubectl apply -f 01-pod.yaml --dry-run=server	--> This will dry run (identify the potential issues before deploying)
+
+
+kubectl describe pods <pod-name>		
+
+
+eksctl delete cluster --name ekswithavinash			--> Delete your cluster
+
+kubectl delete pods <pod-name> <pod-name-2>			--> Deletes the pods
+
+
+kubectl logs <pod-name>								--> Displays the logs
+kubectl logs -f <pod-name>							--> Displays the live logs from pod
+
+kubectl describe pods <pod-name>					--> Displays the pods info inclusing the events
+
+
+
+Servcie : helps to expose the pods (internally / externally)
+
+
+kubectl get services
+kubectl get svc
+
+
+ClusterIP : We cannot expose it to outside world. THis is default svc, if we dont mention service type in manifest file.
+
+NodePort : Expose our workload outside using node/ec2-instance public IP.
+
+========
+
+D: 30/01/2026
+
+LoadBalancer Service Type; This creates Classic Load Balncer in AWS..
+
+
+port-forward : Works only in your local laptop..  *Just for troubleshooting.. You an access the output using localhost URL
+
+http://localhost:8080
+http://127.0.0.1:8080/
+
+kubectl port-forward pod/2048-game-deployment-56fd4759c-7kzz7 8080:80
+
+kubectl port-forward svc/game-clusterip-svc 8080:80
+
+----
+
+memory: "128Mi"
+cpu: "500m"
+
+m : millicores 
+
+1 CPU = 1000 millicores
+0.2 CPU = 200 millicores = 200m
+0.5 CPU = 500 millicores = 500m
+
+
+Mi : Mebibytes
+
+1 Mi = 1024 KiB
+1 Gi (Gibibytes) = 1024 Mi
+
+
+requests: Minimum resources K8s guarantees to the pod. 
+limits: Maximum resources the pod is allowed to use.
+
+
+What if, container tries to access more resources than defined in resources.limits section.. 
+Pod/container kills with OOMKilled error
+
+OOM - Out of Memory
+
+
+--> Too low memory to run the container
+--> large in-memory operations
+--> Sudden traffic spike and more memory requested
+--> Application level memory leak need to investigate
+
+---
+
+namespace : NS is a logical isolated mechanism that allows us to group the resources within a cluster. 
+
+--> Multi-tenant : Multiple teams can use one cluster without involving other teams work..
+--> Resource Limits : We can apply resource quotas for proper workload management.. 
+
+kubectl get ns				--> TO list the namespaces
+
+default 		: our workload runs here, if we deploy without mentioning/creating any namespace.. 
+kube-system 	: K8s backend / system components / support core components runs here.. i.e; coredns, kube-proxy, metrics-server.. 
+kube-public 	: Publicly readable namespaces for cluster wide infromation..
+kube-node-lease	: manages the node heartbeat / ATT to track nodes availability..
+
+
+
+kubectl get all -n default			--> List all the workload from default ns
+
+kubectl get all -n kube-system
+
+
+kubectl get events					--> Lists the K8s events
+
+kubectl top pods 					--> Displays resource usage (cpu and memory)
+kubectl top pods -A					--> Displays resource usage (cpu and memory) from all namespaces
+
+kubectl top pod 2048-game --containers	--> Displays pods's containers CPU and memory usage
+
+kubectl top nodes					--> Displays Nodes CPU and Memory usage
+
+-------
+
+Imperative : We can pass instruction to the K8s on the go / now to perform something. 
+
+** kubectl set image deployment/2048-game-deployment 2048-container=nginx:latest
+** kubectl scale deployment 2048-game-deployment --replicas=3
+
+Declarative : We can do the changes in the manifest file that contains instruction about our workload. 
+
+---
+
+kubectl exec -it <pod> -- /bin/sh
+kubectl exec -it <pod> -- /bin/bash
+
+kubectl exec -it 2048-game -- /bin/sh
+
+
+==========
+
+Day - 71 | 02-02-2026
+
+
+DaemonSet : Daemonset ensures every node gets a pod (log collector, monitoring agents, network components/plugins).. 
+--> We use this for infra operations worklaods.. 
+
+--> One pod per node (Sometimes this setting affected by affinities / node selectors)
+--> Automatically creates and runs on New Nodes.. Deletes when node deleted.. 
+
+
+kubectl get nodes				--> Displays nodes
+kubectl get nodes -o wide		--> Detailed inforamtion about Nodes
+
+
+eksctl scale nodegroup --cluster ekswithavinash --name ng-default --nodes 3
+
+--
+
+StatefulSet : Its k8s controller, helps to manage stateful applications. 
+Every pod creates with statefulset get a "Persistent storage".. 
+gets name in an ordered manner
+Create and terminate pods in ordered manner
+
+
+PV : persistent Volume : Its a storage in the cluster / A dedicated service in AWS (EBS)..
+--> Treat it like a harddisk for our pod.
+--> Even pod deleted, the data in PV can stay.
+
+PVC : Persistent Volume Claim :  Its a request for storage, created by a pod. 
+Pod's cannot directly use PV and gets the storage. 
+We need to define Size and Storage Class.
+
+Pod --> Asks PVC for storage --> gets the matching storage from PV
+
+---
+
+PVC asks for:
+Size (e.g., 5Gi)
+Access mode (ReadWriteOnce / ReadWriteMany)
+Storage class (optional)
+Kubernetes then binds PVC → PV
+
+When PVC is created → Kubernetes controller creates a PV automatically.
+
+---
+
+Static Provisioning : Admin manually creates PVs first. PVC binds to an existing PV.
+
+Dynamic Provisioning : No PV exists. PVC + StorageClass → Kubernetes creates PV automatically.
+
+ReadWriteOnce (RWO) : Only 1 node can mount it	  : gp2, gp3
+ReadWriteMany (RWX) : Multiple nodes can read/write : NFS, EFS
+ReadOnlyMany  (ROX) : Multiple nodes read only 	  : Special cases
+
+---
+
+Amazon EBS CSI Driver : 
+
+CSI : Container Storage Interface : With the help of this plugin, k8s talks to EBS servcie.
+
+volumeMounts : Attach storage to container.
+mountPath: Where do you want to mount the volume inside the container.
+
+
+eksctl create iamserviceaccount \
+     --name ebs-csi-controller-sa \
+     --namespace kube-system \
+     --cluster ekswithavinash \
+     --attach-policy-arn arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy \
+     --approve
+
+   eksctl create addon \
+     --name aws-ebs-csi-driver \
+     --cluster ekswithavinash \
+     --force
+
+===============
+
+AWS Parameter Store = K8s Configmaps
+AWS Secrets Manager = K8s Secrets 
+
+K8s secrets are encoded,. not encrypted.
+*K8s Secrets stores inside "etcd".. In Managed K8s clusters, whoever has access to etcd can read the secrets.. In etcd secrets store in plain text folrmat.
+Same as configmaps, whoever connects the pod, they can read the secret value, as its store as env var.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
