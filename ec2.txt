@@ -56,7 +56,7 @@ B2B ==> Business to Business
 
 ---
 
-Reserved Instances / RI : More suitable for prediuctable worklaods.. 
+Reserved Instances / RI : More suitable for predictable workloads.. 
 --> We go to a reservation with AWS for 1 yr - 3 Yrs..
 --> We get this instances at low price, compared to on-demand
 
@@ -497,7 +497,7 @@ aws ec2 describe-instances
 
 Add "--debug" argument to know what actually happening backend
 
-aws s3 ls s3://avinash-qcli-test --recursive --human-readable --summarize
+aws s3 ls s3://sahithi-qcli-test --recursive --human-readable --summarize
 
 --> We can use profiles to access multiple AWS accounts
 
@@ -579,8 +579,8 @@ echo "<h2>test data</h2>" >> /var/www/html/index.html
 
 
 #!/bin/bash
-useradd avinash
-usermod -aG wheel avinash
+useradd Sahithi
+usermod -aG wheel Sahithi
 
 
 ---

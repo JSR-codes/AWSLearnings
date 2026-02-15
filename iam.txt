@@ -310,7 +310,7 @@ Amazon Q CLI : AI powered Agentic based CLI tool to manage all operations.
 --> It uses/interact with Amazon bedrock in backend.
 
 
-Create an IAM user with username "avinash-test-05112025", attach aws managed "S3FullAccessPolicy", set a temporary password as "temp@12341" and enforce the user to create a new password when login for the first time.
+Create an IAM user with username "sahithi-test-05112025", attach aws managed "S3FullAccessPolicy", set a temporary password as "temp@12341" and enforce the user to create a new password when login for the first time.
 
 
 Agent : 
@@ -323,12 +323,7 @@ Generate report : Show AWS integrations, business values and security recommenda
 
 
 
-https://avinash.s3.amazonaws.com/aws.pdf
 
-+91-7997777597 (11:00 AM IST)
-
-
-avizacademy.com/payments.html
 
 
 
